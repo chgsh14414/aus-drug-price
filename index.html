@@ -1,0 +1,64 @@
+<script src.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.jsscript>
+<script src="https:/.net/npm/papaparse/papaparse.min.jsscript>
+app.jsscript>
+
+function normalizeColumnName(name) {
+  return String(name)
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "_");
+}
+function normalizeItemId(value) {
+  return String(value ?? "").trim();
+}
+
+const priceMap = new Map();
+
+priceRows.forEach(row => {
+  const itemId = normalizeItemId(row.li_item_id);
+
+  if (!priceMap.has(itemId)) {
+    priceMap.set(itemId, []);
+  }
+
+  priceMap.get(itemId).push(row);
+});
+const mergedRows = [];
+
+drugRows.forEach(drugRow => {
+  const itemId = normalizeItemId(drugRow.li_item_id);
+  const matches = priceMap.get(itemId);
+
+  if (matches && matches.length > 0) {
+    matches.forEach(priceRow => {
+      mergedRows.push({
+        ...drugRow,
+        ...priceRow
+      });
+    });
+  } else {
+    mergedRows.push({
+      ...drugRow,
+      cmnwlth_price_to_pharmacist: ""
+    });
+  }
+});
+function searchDrug(keyword, mergedRows) {
+  const query = String(keyword).trim().toLowerCase();
+
+  if (!query) {
+    return [];
+  }
+
+  return mergedRows.filter(row => {
+    const drugName = String(row.drug_name ?? "").toLowerCase();
+    const liDrugName = String(row.li_drug_name ?? "").toLowerCase();
+    const itemId = String(row.li_item_id ?? "").toLowerCase();
+
+    return (
+      drugName.includes(query) ||
+      liDrugName.includes(query) ||
+      itemId.includes(query)
+    );
+  });
+}
