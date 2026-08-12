@@ -2,18 +2,9 @@
 
 本工具以 GitHub Pages 建置，提供澳洲藥價資料的共享查詢、自行上傳合併、搜尋及 CSV 下載功能。
 
-## 核心資料規則
-
-本版本的資料處理原則是：
-
-- 合併後的底層資料**一律保留重複的 `li_item_id`**。
-- 查詢畫面提供「僅顯示 unique `li_item_id`」勾選項目。
-- 勾選只影響網頁目前顯示的搜尋結果，不會修改底層資料。
-- 不論是否勾選，下載完整合併檔與下載查詢結果都保留所有重複的 `li_item_id`。
-
 ## 開啟查詢工具
 
-[開啟澳洲藥價查詢工具](REPLACE_WITH_YOUR_GITHUB_PAGES_URL)
+[開啟澳洲藥價查詢工具](https://chgsh14414.github.io/aus-drug-price/)
 
 請將上方連結替換成實際的 GitHub Pages 網址。
 
@@ -28,7 +19,7 @@ data/version.json
 data/latest.csv
 ```
 
-所有使用者查詢同一份 GitHub 共享資料。共享 `latest.csv` 可以包含重複的 `li_item_id`。
+查詢資料為現有合併資料(版本如頁面所示)。
 
 查詢欄位：
 
@@ -106,7 +97,7 @@ cmnwlth_price_to_pharmacist
 合併後總筆數 - 依 li_item_id 保留第一筆後的筆數
 ```
 
-## 查詢畫面的去重選項
+## 查詢畫面的去重複選項
 
 ### 未勾選
 
@@ -148,52 +139,6 @@ australian_drug_price_search_YYYYMMDD.csv
 ```
 
 其中既有檔名中的 `unique` 僅為延續舊版檔名相容性，本版本下載內容仍保留重複 ID。若需要，也可在 `index.html` 中將檔名前綴改為 `australian_drug_price_merged`。
-
-## Repository 結構
-
-```text
-aus-drug-price/
-├── index.html
-├── README.md
-└── data/
-    ├── latest.csv
-    └── version.json
-```
-
-## 發布或更新共享資料
-
-1. 使用自行上傳區塊合併當月來源檔。
-2. 檢查合併摘要，包括重複 ID 額外資料列數。
-3. 在自行合併查詢區塊下載原始全部合併檔。
-4. 將下載檔重新命名為 `latest.csv`。
-5. 覆蓋 GitHub 中的 `data/latest.csv`。
-6. 更新 `data/version.json` 的版本與日期。
-7. Commit changes。
-8. 等待 GitHub Pages deployment 完成。
-9. 重新整理網站確認版本日期與總筆數。
-
-範例 `version.json`：
-
-```json
-{
-  "active": true,
-  "version": "2026-08",
-  "updatedDate": "2026-08-12",
-  "source": "Australian pharmaceutical pricing files",
-  "file": "latest.csv"
-}
-```
-
-## 資料處理與隱私
-
-共享 `data/latest.csv` 會透過公開 GitHub Pages 網址提供，請勿放入個人資料、公司機密、客戶資料或未公開商業資訊。
-
-自行上傳的檔案：
-
-- 只在使用者目前的瀏覽器頁面處理
-- 不會自動上傳到 GitHub
-- 不會自動取代共享資料
-- 不會由網頁永久儲存
 
 ## 注意事項
 
