@@ -17,21 +17,18 @@
 
   ./style.css
 
-  <!-- Papa Parse: 用來讀取 CSV -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"
-    defer取 XLSX 與 XLS -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/distscript>
+  https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js  </script>
 
-  <!-- 網站主要程式 -->
-  <script src="./
+  https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js  </script>
+
+  ./app.jsscript>
 </head>
 
 <body>
   <header class="site-header">
     <div class="header-content">
       <p class="eyebrow">Australian Drug Price Tool</p>
+
       <h1>澳洲藥價查詢工具</h1>
 
       <p class="header-description">
@@ -43,14 +40,12 @@
   </header>
 
   <main class="container">
-    <!-- 隱私提示 -->
     <section class="privacy-notice">
       <strong>資料處理說明：</strong>
       上傳的檔案只會在目前的瀏覽器中處理，不會由此網站永久儲存。
       重新整理或關閉頁面後，需要重新上傳檔案。
     </section>
 
-    <!-- 操作步驟 -->
     <section class="card">
       <h2>操作步驟</h2>
 
@@ -62,7 +57,6 @@
       </ol>
     </section>
 
-    <!-- 檔案上傳 -->
     <section class="upload-grid">
       <article class="card upload-card">
         <div class="step-number">1</div>
@@ -121,7 +115,6 @@
       </article>
     </section>
 
-    <!-- Merge 按鈕 -->
     <section class="card action-card">
       <div>
         <h2>合併資料</h2>
@@ -133,12 +126,15 @@
         </p>
       </div>
 
-      <button id="mergeButton" class="primary-button" type="button">
+      <button
+        id="mergeButton"
+        class="primary-button"
+        type="button"
+      >
         合併兩個檔案
       </button>
     </section>
 
-    <!-- 狀態與錯誤訊息 -->
     <div
       id="statusMessage"
       class="status-message hidden"
@@ -146,7 +142,6 @@
       aria-live="polite"
     ></div>
 
-    <!-- 資料品質報告 -->
     <section id="summarySection" class="card hidden">
       <div class="section-heading">
         <div>
@@ -182,4 +177,99 @@
 
         <div class="summary-item success-summary">
           <span class="summary-label">成功配對藥品筆數</span>
-    
+          <strong id="matchedRowCount">0</strong>
+        </div>
+
+        <div class="summary-item warning-summary">
+          <span class="summary-label">未配對藥品筆數</span>
+          <strong id="unmatchedRowCount">0</strong>
+        </div>
+
+        <div class="summary-item warning-summary">
+          <span class="summary-label">價格檔重複 ID 數</span>
+          <strong id="duplicateIdCount">0</strong>
+        </div>
+      </div>
+
+      <div id="mergeWarning" class="merge-warning hidden"></div>
+    </section>
+
+    <section id="searchSection" class="card hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Price Lookup</p>
+          <h2>查詢藥品價格</h2>
+        </div>
+
+        <div class="result-actions">
+          <button
+            id="clearSearchButton"
+            class="text-button"
+            type="button"
+          >
+            清除搜尋
+          </button>
+
+          <button
+            id="downloadSearchButton"
+            class="secondary-button"
+            type="button"
+            disabled
+          >
+            下載查詢結果
+          </button>
+        </div>
+      </div>
+
+      <div class="search-controls">
+        <label for="searchInput">
+          輸入藥名或 li_item_id
+        </label>
+
+        <div class="search-row">
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="例如：atorvastatin 或 12345"
+            autocomplete="off"
+          >
+
+          <button
+            id="searchButton"
+            class="primary-button"
+            type="button"
+          >
+            搜尋
+          </button>
+        </div>
+
+        <p class="field-help">
+          搜尋不分英文大小寫，也可以只輸入部分藥名。
+        </p>
+      </div>
+
+      <div id="resultSummary" class="result-summary">
+        尚未搜尋
+      </div>
+
+      <div class="table-wrapper">
+        <table id="resultTable">
+          <thead id="resultTableHead"></thead>
+          <tbody id="resultTableBody"></tbody>
+        </table>
+      </div>
+
+      <div id="noResults" class="empty-state hidden">
+        找不到符合的資料，請嘗試輸入部分藥名或 li_item_id。
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>
+      本工具僅協助合併與查詢公開資料。
+      查詢結果仍應以澳洲官方發布的原始檔案為準。
+    </p>
+  </footer>
+</body>
+</html>
