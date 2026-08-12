@@ -127,18 +127,16 @@ cmnwlth_price_to_pharmacist
 
 ### 下載查詢結果
 
-下載所有符合搜尋條件的原始資料列，同樣保留重複 `li_item_id`。即使畫面勾選 unique ID，下載內容仍不會去重。
+下載所有符合搜尋條件的原始資料列，同樣保留重複 `li_item_id`。即使畫面勾選 unique ID，下載內容仍不會去重複。
 
 下載檔名會加上使用者當下日期：
 
 ```text
 australian_drug_price_shared_YYYYMMDD.csv
 australian_drug_price_shared_search_YYYYMMDD.csv
-australian_drug_price_unique_YYYYMMDD.csv
+australian_drug_price_merged_YYYYMMDD.csv
 australian_drug_price_search_YYYYMMDD.csv
 ```
-
-其中既有檔名中的 `unique` 僅為延續舊版檔名相容性，本版本下載內容仍保留重複 ID。若需要，也可在 `index.html` 中將檔名前綴改為 `australian_drug_price_merged`。
 
 ## 注意事項
 
