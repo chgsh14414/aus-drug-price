@@ -1,64 +1,185 @@
-<script src.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.jsscript>
-<script src="https:/.net/npm/papaparse/papaparse.min.jsscript>
-app.jsscript>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
 
-function normalizeColumnName(name) {
-  return String(name)
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, "_");
-}
-function normalizeItemId(value) {
-  return String(value ?? "").trim();
-}
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
 
-const priceMap = new Map();
+  <meta
+    name="description"
+    content="Australian drug price file merging and lookup tool"
+  >
 
-priceRows.forEach(row => {
-  const itemId = normalizeItemId(row.li_item_id);
+  <title>澳洲藥價查詢工具</title>
 
-  if (!priceMap.has(itemId)) {
-    priceMap.set(itemId, []);
-  }
+  ./style.css
 
-  priceMap.get(itemId).push(row);
-});
-const mergedRows = [];
+  <!-- Papa Parse: 用來讀取 CSV -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/papaparse@5.4.1/papaparse.min.js"
+    defer取 XLSX 與 XLS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/distscript>
 
-drugRows.forEach(drugRow => {
-  const itemId = normalizeItemId(drugRow.li_item_id);
-  const matches = priceMap.get(itemId);
+  <!-- 網站主要程式 -->
+  <script src="./
+</head>
 
-  if (matches && matches.length > 0) {
-    matches.forEach(priceRow => {
-      mergedRows.push({
-        ...drugRow,
-        ...priceRow
-      });
-    });
-  } else {
-    mergedRows.push({
-      ...drugRow,
-      cmnwlth_price_to_pharmacist: ""
-    });
-  }
-});
-function searchDrug(keyword, mergedRows) {
-  const query = String(keyword).trim().toLowerCase();
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <p class="eyebrow">Australian Drug Price Tool</p>
+      <h1>澳洲藥價查詢工具</h1>
 
-  if (!query) {
-    return [];
-  }
+      <p class="header-description">
+        上傳藥品資料檔與價格資料檔，系統會依
+        <strong>li_item_id</strong>
+        自動合併，並可搜尋藥名與藥價。
+      </p>
+    </div>
+  </header>
 
-  return mergedRows.filter(row => {
-    const drugName = String(row.drug_name ?? "").toLowerCase();
-    const liDrugName = String(row.li_drug_name ?? "").toLowerCase();
-    const itemId = String(row.li_item_id ?? "").toLowerCase();
+  <main class="container">
+    <!-- 隱私提示 -->
+    <section class="privacy-notice">
+      <strong>資料處理說明：</strong>
+      上傳的檔案只會在目前的瀏覽器中處理，不會由此網站永久儲存。
+      重新整理或關閉頁面後，需要重新上傳檔案。
+    </section>
 
-    return (
-      drugName.includes(query) ||
-      liDrugName.includes(query) ||
-      itemId.includes(query)
-    );
-  });
-}
+    <!-- 操作步驟 -->
+    <section class="card">
+      <h2>操作步驟</h2>
+
+      <ol class="steps">
+        <li>上傳含有藥名及 li_item_id 的檔案。</li>
+        <li>上傳含有價格及 li_item_id 的檔案。</li>
+        <li>按下「合併兩個檔案」。</li>
+        <li>輸入 drug_name、li_drug_name 或 li_item_id 查詢。</li>
+      </ol>
+    </section>
+
+    <!-- 檔案上傳 -->
+    <section class="upload-grid">
+      <article class="card upload-card">
+        <div class="step-number">1</div>
+
+        <h2>藥品名稱檔案</h2>
+
+        <p>
+          此檔案至少需要包含
+          <code>li_item_id</code>，
+          以及
+          <code>drug_name</code>
+          或
+          <code>li_drug_name</code>。
+        </p>
+
+        <label class="file-label" for="drugFile">
+          選擇藥品檔案
+        </label>
+
+        <input
+          id="drugFile"
+          type="file"
+          accept=".csv,.xlsx,.xls"
+        >
+
+        <div id="drugFileInfo" class="file-info">
+          尚未選擇檔案
+        </div>
+      </article>
+
+      <article class="card upload-card">
+        <div class="step-number">2</div>
+
+        <h2>價格檔案</h2>
+
+        <p>
+          此檔案至少需要包含
+          <code>li_item_id</code>
+          和
+          <code>cmnwlth_price_to_pharmacist</code>。
+        </p>
+
+        <label class="file-label" for="priceFile">
+          選擇價格檔案
+        </label>
+
+        <input
+          id="priceFile"
+          type="file"
+          accept=".csv,.xlsx,.xls"
+        >
+
+        <div id="priceFileInfo" class="file-info">
+          尚未選擇檔案
+        </div>
+      </article>
+    </section>
+
+    <!-- Merge 按鈕 -->
+    <section class="card action-card">
+      <div>
+        <h2>合併資料</h2>
+
+        <p>
+          系統會以藥品名稱檔案為左表，依
+          <code>li_item_id</code>
+          執行 Left Join。
+        </p>
+      </div>
+
+      <button id="mergeButton" class="primary-button" type="button">
+        合併兩個檔案
+      </button>
+    </section>
+
+    <!-- 狀態與錯誤訊息 -->
+    <div
+      id="statusMessage"
+      class="status-message hidden"
+      role="status"
+      aria-live="polite"
+    ></div>
+
+    <!-- 資料品質報告 -->
+    <section id="summarySection" class="card hidden">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Data Validation</p>
+          <h2>資料合併摘要</h2>
+        </div>
+
+        <button
+          id="downloadMergedButton"
+          class="secondary-button"
+          type="button"
+          disabled
+        >
+          下載合併結果 CSV
+        </button>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-item">
+          <span class="summary-label">藥品檔筆數</span>
+          <strong id="drugRowCount">0</strong>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">價格檔筆數</span>
+          <strong id="priceRowCount">0</strong>
+        </div>
+
+        <div class="summary-item">
+          <span class="summary-label">合併後筆數</span>
+          <strong id="mergedRowCount">0</strong>
+        </div>
+
+        <div class="summary-item success-summary">
+          <span class="summary-label">成功配對藥品筆數</span>
+    
