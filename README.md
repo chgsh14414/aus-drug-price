@@ -4,9 +4,8 @@
 
 ## 開啟查詢工具
 
-[開啟澳洲藥價查詢工具](https://chgsh14414.github.io/aus-drug-price/)
+[澳洲藥價查詢工具](https://chgsh14414.github.io/aus-drug-price/)
 
-請將上方連結替換成實際的 GitHub Pages 網址。
 
 ## 網站功能
 
