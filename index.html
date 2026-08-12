@@ -38,7 +38,7 @@
     <article class="card"><span class="step">1</span><h2>藥品名稱檔案 <span class="file-hint">(items.csv)</span></h2><p>需要 <code>li_item_id</code>，以及 <code>drug_name</code> 或 <code>li_drug_name</code>。</p><input id="drugFile" type="file" accept=".csv,.xlsx,.xls"><div id="drugFileInfo" class="file-info">尚未選擇檔案</div></article>
     <article class="card"><span class="step">2</span><h2>價格檔案 <span class="file-hint">(item-dispensing-rule-relationships.csv)</span></h2><p>需要 <code>li_item_id</code> 和 <code>cmnwlth_price_to_pharmacist</code>。</p><input id="priceFile" type="file" accept=".csv,.xlsx,.xls"><div id="priceFileInfo" class="file-info">尚未選擇檔案</div></article>
   </section>
-  <section class="card action"><div><h2>合併資料</h2><p>先以藥品名稱檔案為左表執行 Left Join，再依 <code>li_item_id</code> 去重。</p></div><button id="mergeButton" class="btn primary">合併兩個檔案</button></section>
+  <section class="card action"><div><h2>合併資料</h2><p>先以藥品名稱檔案為左表執行 Left Join，再依 <code>li_item_id</code> 去重複。</p></div><button id="mergeButton" class="btn primary">合併兩個檔案</button></section>
   <div id="status" class="status hidden"></div>
 
   <section id="summarySection" class="card hidden"><div class="heading"><h2>資料合併摘要</h2></div><div class="summary">
