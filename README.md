@@ -4,7 +4,7 @@
 
 ## 開啟查詢工具
 
-**https://你的GitHub帳號.github.io/aus-drug-price/**
+**[澳洲藥價查詢工具](https://chgsh14414.github.io/aus-drug-price/)**
 
 > 建議使用 Microsoft Edge 或 Google Chrome 開啟。  
 > 現有合併版本可直接查詢；若需要其他月份，可在網頁下方自行上傳檔案進行合併。
