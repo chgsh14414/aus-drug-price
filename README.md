@@ -1,5 +1,6 @@
 # 澳洲藥價查詢工具
 https://chgsh14414.github.io/aus-drug-price/
+
 本工具以 GitHub Pages 建置，提供澳洲藥價資料的合併、去重、查詢及下載功能。
 
 網站同時提供以下兩種使用方式：
